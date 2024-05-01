@@ -1,0 +1,16 @@
+
+.main-title{
+    font-weight: 900;
+}
+
+.main-subtitle{
+    font-weight: 300;
+}
+
+.card {
+    transition: all 0.3s;
+}
+
+.card:hover{
+    transform: scale(1.01);
+}

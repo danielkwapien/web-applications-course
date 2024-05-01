@@ -1,0 +1,22 @@
+{% for ingred_form in form.ingredients %}
+    <div class="row">
+        <div class="col-md-4">
+            {{ ingred_form.form.name(class="form-control", placeholder="Enter ingredient") }}
+        </div>
+        <div class="col-md-4">
+            {{ ingred_form.form.quantity(class="form-control", placeholder="Enter quantity") }}
+        </div>
+        <div class="col-md-4">
+            {{ ingred_form.form.unit(class="form-control", placeholder="Enter unit", list="unit-suggestions") }}
+            
+            
+            <datalist id="unit-suggestions">
+                <option value="kg">
+                <option value="g">
+                <option value="units">
+                <option value="oz">
+                
+            </datalist>
+        </div>
+    </div>
+{% endfor %}

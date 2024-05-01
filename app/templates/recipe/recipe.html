@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="recipe">
+    <!--recipe header description starts-->
+    <div class = "recipe-hero container">
+        <div class="row">
+            <div class="col">
+                <div id="carousel-{{recipe.id}}" class="carousel slide">
+                    <div class="carousel-inner" style="height: 23rem; width: 35rem; overflow: hidden;">
+                        {% for recipe_photo in recipe.photos %}
+                            {%if recipe.user == recipe_photo.user%}
+                                {%set photos = True %}
+                                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                    <img class="img-fluid" src="{{ url_for('static', filename='photos/photo-' ~ recipe_photo.id ~ '.' ~ recipe_photo.file_extension) }}" alt="photo">
+                                </div>
+                            {%endif%}
+                            {%if loop.last and photos != True %}
+                                <div id="carousel-{{recipe.id}}" class="carousel slide">
+                                    <div class="carousel-inner" style="height: 300px; overflow: hidden;">
+                                        <div class="carousel-item active">
+                                            <img class="img-fluid" src="{{ url_for('static', filename='photos/noimage.png') }}" alt="photo">
+                                        </div>
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{recipe.id}}" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{recipe.id}}" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            {%endif%}
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{recipe.id}}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{recipe.id}}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col">
+                <div class="recipe-title">
+                    <h1 style="font-weight: 800;">{{recipe.title}}</h1>
+                </div>
+                <div class="recipe-user">
+                    <p style="font-weight: 600;">Made by: {{ recipe.user.name}}</p>
+                </div>
+                <div class="recipe-description">
+                    {{recipe.description}}
+                </div>
+                <!--recipe icons starts-->
+                <div class="row text-center">
+                    <div class="col">
+                        <h6>Cooking time</h6>
+                        <p class="d-flex align-items-center justify-content-center">
+                            <span class="material-symbols-outlined">
+                                schedule
+                            </span>
+                            <span class="px-2">
+                                {{recipe.cooking_time}} minutes
+                            </span>
+                            
+                        </p>
+                    </div>
+                    <div class="col">
+                        <h6>Number of steps</h6>
+                        <p class="d-flex align-items-center justify-content-center">
+                            <span class="material-symbols-outlined">
+                                receipt_long
+                            </span>
+                            <span class="px-2">
+                                {{ recipe.num_steps() }}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--recipe icons ends-->
+    <!--recipe header description ends-->
+
+    <!--recipe body starts-->
+    <div class="recipe-body container">
+        <div class="row">
+            <div class="recipe-qingredients col-4">
+                <h2 style="font-weight: 800;">Ingredients</h2>
+                <div class="row row-cols-1 w-75">
+                    {% for qingredient in recipe.qIngredients %}
+                    <div class="col">
+                        <p class="border rounded py-3 px-3 shadow-sm">
+                            {{qingredient.quantity}} {{ qingredient.unit }} of {{ qingredient.ingredient.name }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="recipe-steps col-8">
+                <h2 style="font-weight: 800;">Steps</h2>
+                <div class="row row-cols-1 w-75">
+                    <div class="col">
+                        {% for step in recipe.steps %}
+                        <p class="border rounded py-3 px-3 shadow-sm">{{step.order}}. {{step.description}}</li>
+                        {% endfor %}
+                    </div>
+                </div>      
+            </div>
+        </div>
+        
+        {% if drinks %}
+        <div class="recipe-drinks col-8">
+            <h2 style="font-weight: 800;">Drinks suggestions</h2>
+            <div class="row row-cols-auto w-75">
+                {% for drink in drinks %}
+                <div class="col">
+                    <p class="border rounded py-3 px-3 shadow-sm">
+                        {{drink.name}} 
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <h2 style="font-weight: 800;">Download this recipe</h2>
+        <a href="{{ url_for('main.download_pdf', recipe_id = recipe.id) }}" class="btn btn-secondary mt-3">Download PDF</a>
+    </div>
+    
+</div>
+<div class="container mt-5">
+    <div class="row row-cols-2">
+        <div class="recipe-ratings col">
+            <h2 style="font-weight: 800;">Ratings</h2>
+            {%if current_user != recipe.user and current_user.is_authenticated %}
+            <p>Rate this recipe!</p>
+            <form action="{{url_for('main.rating_post', recipe_id = recipe.id)}}" method = 'post'>
+                <!--input type="hidden" name="recipe_id" value="{{recipe.id}}"-->
+                {%if rating_button == 'non-rated'%}
+                    <input class="rounded px-2 py-2" name="rating" type="number" min=0 max= 5 maxlength=1></input>
+                    <input class="btn btn-primary px-5 py-2" type="submit" value="Rate this recipe"></input>
+                {%else%}
+                    <input class="rounded px-2 py-2" name="rating" type="number" min=0 max= 5 maxlength=1 value="{{rating_value}}"></input>
+                    <input class="btn btn-primary px-5 py-2" type="submit" value="Change your rating"></input>
+                {%endif%}
+            </form>
+            {% endif %}
+            <p class="mt-3" style="font-weight: 700;">Latest ratings</p>
+            <ul>
+                {% for rating in recipe.ratings %}
+                <li>{{ rating.user.name }} has given {{ rating.value }} stars </li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+        
+        <div class="recipe-photos col">
+            {% if photos %}
+            <h2 style="font-weight: 700;">Photos</h2>
+            <ul>
+                {% for photo in photos %}
+                    <p>{{photo.user.name}} has uploaded a photo:</p>
+                    <li style="height: 15rem; width: 20rem; overflow: hidden;"">
+                        <img class="img-fluid" src="{{ url_for('static', filename='photos/photo-' ~ photo.id ~ '.' ~ photo.file_extension) }}" alt="photo">
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if current_user != recipe.user and current_user.is_authenticated %}
+            <div class="recipe-photo container">
+                <form action="{{url_for('main.photo_post', recipe_id = recipe.id)}}" method="post" enctype="multipart/form-data">
+                    <input type="file" name="photo" accept="image/jpeg,image/png" required>
+                    <input type="submit">
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        
+    </div>
+    
+    
+</div>
+<!--Add to bookmarks-->
+{% if current_user != recipe.user and current_user.is_authenticated %}
+<div class="recipe-bookmark container">
+    {%if bookmark_button == 'not-saved' %}
+        <h5 style="font-weight: 700;">Add this recipe to your bookmarks </h5>
+        <button class="btn-primary" id="addBookmarkBtn" data-recipe-id="{{ recipe.id }}">
+            <span class="material-symbols-outlined">
+                bookmark
+            </span>
+        </button>
+    {%else%}
+        <h5 style="font-weight: 700;">Delete this recipe from your bookmarks</h5>
+        <button class="btn-primary" id="removeBookmarkBtn" data-recipe-id="{{ recipe.id }}">
+            <span class="material-symbols-outlined filled">
+                bookmark
+            </span>
+        </button>
+    {%endif%}
+</div>
+{% endif %}
+
+
+    
+
+    <script>
+        $(document).ready(function() {
+            $('#removeBookmarkBtn').click(function() {
+                const recipeId = $(this).data('recipe-id');
+
+                $.ajax({
+                    url: `/deleteBookmark/${recipeId}`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        console.log('Bookmark removed successfully:', data);
+                        location.reload();
+                    },
+                    error: function(error) {
+                        console.error('Error removing bookmark:', error);
+                    }
+                });
+            });
+
+            $('#addBookmarkBtn').click(function() {
+                const recipeId = $(this).data('recipe-id');
+
+                $.ajax({
+                    url: `/saveBookmark/${recipeId}`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        console.log('Bookmark removed successfully:', data);
+                        location.reload();
+                    },
+                    error: function(error) {
+                        console.error('Error removing bookmark:', error);
+                    }
+                });
+            });
+        });
+    
+            </script>
+    
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,6 @@
+{% for step_form in form.steps %}
+    <div>
+        {{ step_form.form.order() }}
+        {{ step_form.form.description(class="form-control", style="max-height: 25px;", placeholder="Enter step description")  }}
+    </div>
+{% endfor %}

@@ -1,0 +1,26 @@
+- filter for search and main view (relevance, time, ratings, complexity, cooking time...)
+- filter search view with available ingredients * (puede ser dificil)
+- notifications for new recipes of bookmarked people*
+- Allergen Alerts + (admin features) **
+- QR Code Recipe Sharing (facil)
+- Wine or Beverage Pairing Suggestions * (facil)
+- Recipe Export and Sharing: Allow users to export recipes in various formats (PDF, text, etc.) and share them easily with friends or on social media. (bibliotecas para generar pdf con javascript + css para impresion) (puede ser facil?)
+
+
+LO QUE VAMOS A INTENTAR:
+
+1. filter search view with available ingredients * (puede ser dificil)
+
+2. Wine or Beverage Pairing Suggestions * (facil)
+
+3. Recipe Export and Sharing: Allow users to export recipes in various formats (PDF, text, etc.)
+
+4. QR Code Recipe Sharing (facil)
+
+
+SUBMISSION:
+
+-Submit a compressed file- shouldn't include the venv in the file. remove pycache. 
+- We have to link the app to the laboratory data base!!!
+- database should have some data
+- if you want the photos to show we should compress static too (try to use small photos)

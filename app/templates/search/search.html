@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+  <div class="container d-flex justify-content-center">
+    <div class="mt-3 mb-3">
+      <input type="text" class="input bordered form-control" placeholder="Search" name="q" id="searchInput">
+    </div>
+  </div>
+  <div class="container d-flex justify-content-center">
+    <div class="row row-cols-auto">
+    {% for ingredient in all_ingredients %}
+      <div class="col border rounded px-3 py-1 align-items-center mx-1 my-1">
+        <input class="ingredient-checkbox form-checkbox" type="checkbox" name="ingredient" value="{{ ingredient.id }}">  
+        <label> {{ ingredient.name }} </label>            
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+  <div id="results" class="container m-5">
+      {% include 'search/search_results.html' %}
+  </div>
+</div>
+
+
+<script>
+$(document).ready(function () {
+  // Common function to handle both search input and ingredient checkbox interactions
+  function handleSearch() {
+    var query = $('#searchInput').val();
+    var selectedIngredients = $(".ingredient-checkbox:checked").map(function () {
+      return $(this).val();
+    }).get();
+
+    console.log(query, selectedIngredients);
+
+    $.ajax({
+      url: '/search/new-search', // Update the URL to match your server-side search endpoint
+      type: 'GET',
+      data: {
+        q: query,
+        i: selectedIngredients
+      },
+      traditional: true,
+      dataType: 'html',
+      success: function (data) {
+        $('#results').html(data);
+      }
+    });
+  }
+
+  // Attach the common handler to both events
+  $('#searchInput').on('keyup change', handleSearch);
+  $('.ingredient-checkbox').on('click', handleSearch);
+});
+</script>
+
+{% endblock %}
+

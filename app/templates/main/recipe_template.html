@@ -1,0 +1,107 @@
+<div class= 'col'>
+    <div class="card shadow rounded" style="width: 25rem; height: 32rem;">
+        {% if recipe.photos %}
+        <div id="carousel-{{recipe.id}}" class="carousel slide">
+            <div class="carousel-inner" style="height: 300px; overflow: hidden;">
+                {% for recipe_photo in recipe.photos %}
+                    {%if recipe.user == recipe_photo.user%}
+                        {%set photos = True %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                            <a href="{{ url_for('main.recipe', recipe_id=recipe.id) }}" style="color: inherit; text-decoration: none;">
+                                <img class="img-fluid" src="{{ url_for('static', filename='photos/photo-' ~ recipe_photo.id ~ '.' ~ recipe_photo.file_extension) }}" alt="photo">
+                            </a>
+                            
+                        </div>
+                    {%endif%}
+                    {%if loop.last and photos != True %}
+                        <div id="carousel-{{recipe.id}}" class="carousel slide">
+                            <div class="carousel-inner" style="height: 300px; overflow: hidden;">
+                                <div class="carousel-item active">
+                                    
+                                    <a href="{{ url_for('main.recipe', recipe_id=recipe.id) }}" style="color: inherit; text-decoration: none;">
+                                        <img class="img-fluid" src="{{ url_for('static', filename='photos/noimage.png') }}" alt="photo">
+                                    </a>
+
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{recipe.id}}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{recipe.id}}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    {%endif%}
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{recipe.id}}" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{recipe.id}}" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        {% else %}
+        <div id="carousel-{{recipe.id}}" class="carousel slide">
+            <div class="carousel-inner" style="height: 300px; overflow: hidden;">
+                <div class="carousel-item active">
+                    <a href="{{ url_for('main.recipe', recipe_id=recipe.id) }}" style="color: inherit; text-decoration: none;">
+                        <img class="img-fluid" src="{{ url_for('static', filename='photos/noimage.png') }}" alt="photo">
+                    </a>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{recipe.id}}" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{recipe.id}}" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        {% endif %}
+        
+        <div class = "card-body">
+            <h3 class="card-title">
+                <a href="{{url_for('main.recipe', recipe_id = recipe.id)}}" style="color: inherit; text-decoration: none;">
+                {{ recipe.title }}
+                </a>
+            </h3>
+            <p class="card-title">
+                <a href="{{url_for('main.user', user_id = recipe.user.id)}}" style="color: inherit; text-decoration: none;">
+                    By: {{recipe.user.name}}
+                </a>
+            </p>        
+            <p>{{ recipe.stars_representation() }}</p>
+            <div class="row text-start">
+                <div class="col">
+                    <h6>Cooking time</h6>
+                    <p class="d-flex align-items-center justify-content-start">
+                        <span class="material-symbols-outlined">
+                            schedule
+                        </span>
+                        <span class="px-2">
+                            {{recipe.cooking_time}} minutes
+                        </span>
+                        
+                    </p>
+                </div>
+                <div class="col">
+                    <h6>Number of steps</h6>
+                    <p class="d-flex align-items-center justify-content-start">
+                        <span class="material-symbols-outlined">
+                            receipt_long
+                        </span>
+                        <span class="px-2">
+                            {{ recipe.num_steps() }}
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

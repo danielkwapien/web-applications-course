@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .recipe-hero {
+                margin-top: 20px;
+            }
+
+            .carousel-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .recipe-title {
+                margin-top: 20px;
+            }
+
+            .recipe-user p {
+                color: #666;
+            }
+
+            .recipe-description {
+                margin-top: 10px;
+                color: #444;
+            }
+
+            .row.text-center h6 {
+                margin-top: 10px;
+                color: #333;
+            }
+
+            .row.text-center p {
+                color: #666;
+            }
+
+            .recipe-body {
+                margin-top: 20px;
+            }
+
+            .recipe-steps h2,
+            .recipe-qingredients h2 {
+                color: #333;
+                margin-bottom: 15px;
+            }
+
+            .list-group-item {
+                border: none;
+                padding: 10px;
+                margin-bottom: 5px;
+            }
+
+            .row-cols-auto .col {
+                margin-bottom: 15px;
+            }
+
+            .border.rounded {
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 10px;
+            }
+
+            /* Add more styles as needed */
+
+        </style>
+    </head>
+    <body>
+        <div class = 'recipe'>
+            <!--recipe header description starts-->
+            <div class = "recipe-hero container">
+                <div class="row">
+                    <div class="col">
+                        <div id="carousel-{{recipe.id}}" class="carousel slide">
+                            <div class="carousel-inner" style="height: 23rem; width: 35rem; overflow: hidden;">
+                                {% for recipe_photo in photos %}
+                                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                        <img class="img-fluid" src="{{ url_for('static', filename='photos/photo-' ~ recipe_photo.id ~ '.' ~ recipe_photo.file_extension) }}" alt="photo">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{recipe.id}}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{recipe.id}}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="recipe-title">
+                            <h1>{{recipe.title}}</h1>
+                        </div>
+                        <div class="recipe-user">
+                            <p>Made by: {{ recipe.user.name}}</p>
+                        </div>
+                        <div class="recipe-description">
+                            {{recipe.description}}
+                        </div>
+                        <!--recipe icons starts-->
+                        <div class="row text-center">
+                            <div class="col">
+                                <h6>Cooking time</h6>
+                                <p class="d-flex align-items-center justify-content-center">
+                                    
+                                    <span class="px-2">
+                                        {{recipe.cooking_time}} minutes
+                                    </span>
+                                    
+                                </p>
+                            </div>
+                            <div class="col">
+                                <h6>Number of steps</h6>
+                                <p class="d-flex align-items-center justify-content-center">
+                                    
+                                    <span class="px-2">
+                                        {{ recipe.num_steps() }}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--recipe icons ends-->
+            <!--recipe header description ends-->
+
+            <!--recipe body starts-->
+            <div class="recipe-body container">
+                <div class="recipe-steps">
+                    <h2>Steps</h2>
+                    <ol class="list-group list-group-numbered">
+                        {% for step in recipe.steps %}
+                        <li class="list-group-item">{{step.description}}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <div class="recipe-qingredients">
+                    <h2>Ingredients</h2>
+                    <div class="row row-cols-auto">
+                        {% for qingredient in recipe.qIngredients %}
+                        <div class="col">
+                            <p class="border rounded py-3 px-3">
+                                {{qingredient.quantity}} {{ qingredient.unit }} of {{ qingredient.ingredient.name }}
+                            </p>
+                            
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

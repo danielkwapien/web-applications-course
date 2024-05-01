@@ -1,0 +1,9 @@
+{% extends 'search.html' %}
+
+{% block content %}
+    <section>
+        {% for recipe in recipes %}
+            {% include 'recipe_template.html' %}
+        {% endfor %}
+    </section>
+{% endblock %}

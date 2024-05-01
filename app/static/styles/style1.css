@@ -1,0 +1,189 @@
+/* styles.css */
+
+/* General styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color:#fff;
+    color: #333;
+    margin: 0;
+}
+
+
+
+.recipe-body, .recipe-extras{
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Recipe header styling */
+.recipe-hero, .recipe-extras {
+    display: flex;
+    align-items: center;
+}
+
+.recipe-hero img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.recipe-title {
+    font-size: 36px;
+    font-weight: bold;
+    color:chocolate;
+    margin-bottom: 10px;
+}
+
+.recipe-user p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.recipe-description {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.recipe-icons {
+    display: flex;
+}
+
+.recipe-icons article {
+    margin-right: 20px;
+}
+
+.recipe-icons h5 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.recipe-icons p {
+    font-size: 14px;
+    color: #888;
+}
+
+/* Recipe body styling */
+.recipe-body {
+    margin-top: 30px;
+}
+
+
+.recipe-steps,
+.recipe-qingredients,
+.recipe-ratings,
+.recipe-drinks{
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.recipe-steps h2,
+.recipe-qingredients h2,
+.recipe-drinks h2,
+.recipe-ratings h2,
+.recipe-photos {
+    margin-bottom: 10px;
+}
+
+.recipe-steps ol,
+.recipe-qingredients ul,
+.recipe-ratings ul,
+.recipe.photos ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.recipe-steps li,
+.recipe-qingredients li,
+.recipe-ratings li,
+.recipe-photos li {
+    margin-bottom: 10px;
+}
+
+/* Recipe rating, photo, and bookmark styling */
+.recipe-rating,
+.recipe-photo,
+.recipe-bookmark{
+    margin-top: 30px;
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.recipe-rating input[type="number"],
+.recipe-rating input[type="submit"],
+.recipe-photo input[type="file"],
+.recipe-photo input[type="submit"],
+.recipe-bookmark input[type="submit"] {
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/* CSS */
+.recipe-photo input[type="submit"],
+.recipe-bookmark input[type="submit"] {
+  align-self: center;
+  background-color: #fff;
+  background-image: none;
+  background-position: 0 90%;
+  background-repeat: repeat no-repeat;
+  background-size: 4px 3px;
+  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+  border-style: solid;
+  border-width: 2px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Neucha, sans-serif;
+  font-size: 1rem;
+  line-height: 23px;
+  outline: none;
+  padding: .75rem;
+  text-decoration: none;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+
+
+/* Optional: Style the file input */
+.recipe-photo input[type="file"] {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .recipe-hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .recipe-hero img {
+        margin-bottom: 20px;
+        max-width: 100%;
+    }
+
+    .recipe-icons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .recipe-icons article {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    .recipe-extras{
+        flex-direction: column;
+        text-align: center;
+    }
+}

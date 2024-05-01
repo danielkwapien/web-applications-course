@@ -1,0 +1,16 @@
+<div class="container">
+    <h1 class="text-center main-title">Main page</h1>
+    <p class="text-center main-subtitle">
+        Whether you're after an old favourite or inspiration for something new, we have the perfect recipe.
+    </p>
+</div>
+
+
+<div class="container d-flex justify-content-center">
+    <div class='row row-cols-auto g-5 py-5'>
+        {% for recipe in recipes %}
+                {% include 'main/recipe_template.html' %}
+        {% endfor %}
+    </div>
+</div>
+

@@ -1,0 +1,47 @@
+header {
+    height: 100px;
+}
+
+.navbar {
+    height: 75px;
+    background-color: #C2CFB2;
+}
+
+.navbar-brand{
+    font-weight: 900;
+    transition: all 0.3s;
+}
+
+.navbar-brand:hover{
+    transform: scale(1.1);
+}
+
+.nav-item{  
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.nav-item:hover{
+    transform: translateY(-5px);
+}
+
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #F78764 !important;
+    border-color:#F78764 !important ;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover{
+    transform: scale(1.02);
+}
+
+.btn-danger, .btn-danger:hover, .btn-danger:active, .btn-danger:visited{
+    background-color: #B86F52 !important;
+    border-color:#B86F52 !important ;
+    transition: all 0.3s;
+}
+
+.btn-danger:hover{
+    transform: scale(1.02);
+}

@@ -1,0 +1,6 @@
+{% for drink_form in form.drinks %}
+    <div>
+        
+        {{ drink_form.form.name(class="form-control", style="max-height: 50px; width: 300px;", placeholder="Enter step any drink suggestion")  }}
+    </div>
+{% endfor %}

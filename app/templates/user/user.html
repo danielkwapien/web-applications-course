@@ -1,0 +1,141 @@
+{%extends 'base.html' %}
+
+{%block content%}
+
+<div class="container"> 
+    <div class="profile-header">
+        <div class="profile-nav-info">
+            <div class="user-name">
+                <h2>@{{user.name}}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="main-bd">
+        <!-- user sidebar starts -->
+        <div class="left-side">
+            <div class="profile-side">
+                <div class="number-recipes">
+                    Recipes
+                    <p>
+                        <span class="material-symbols-outlined">
+                            featured_play_list
+                        </span>
+                        {{number_recipes}}
+                    </p>
+                </div>
+                <div class="number-photos">
+                    Photos
+                    <p>
+                        <span class="material-symbols-outlined">
+                            photo_library
+                        </span>
+                        {{number_photos}}
+                    </p>
+                </div>
+                <div class="email">
+                    Email
+                    <p>
+                        <span class="material-symbols-outlined">
+                            mail
+                        </span>
+                        {{user.email}}
+                    </p>
+                </div>
+                
+                
+            </div>
+        </div>
+        <!-- user sidebar ends -->
+        <!-- user body starts -->
+        <div class="right-side">
+            <div class="nav">
+                <ul>
+                    <li onclick="tabs(0)" class = 't-post-active-'>Posts</li>
+                    <li onclick="tabs(1)" class = 't-rating'>Ratings</li>
+                    <li onclick="tabs(2)" class = 't-photo'>Photos</li>
+                    {%if current_user.id == user.id %}
+                        <li onclick="tabs(3)" class = 't-bookmark'>Bookmarks</li>
+                    {%endif%}
+                    
+                </ul>
+            </div>
+            <div class="profile-body">
+                <div class="profile-posts tab">
+                    <h1>@{{user.name}} Posts</h1>
+                    <section class = 'user-recipes'>
+                        <div class = 'body'>
+                            {%for recipe in user.recipes%}
+                                {%include 'main/recipe_template.html' %}
+                            {%endfor%}
+                        </div>
+                    </section>
+                </div>
+                <div class="profile-ratings tab">
+                    <h1>@{{user.name}} Ratings</h1>
+                    <section class = 'user-ratings'>
+                        <ul>
+                        {%for rating in user.ratings %}
+                            <li>{{user.name}} has given {{ rating.value }} stars to {{rating.recipe.title}}</li>
+                        {%endfor%}
+                        </ul>
+                    </section>
+                </div>
+                <div class="profile-photos tab">
+                    <h1>@{{user.name}} Photos</h1>
+                    <section class = 'user-photos'>
+                        <ul>
+                        {%for photo in user.photos %}
+                            <li>
+                                <div class = 'user-photos-username'>
+                                    {{user.name}}
+                                    <span class = 'user-photos-recipe'>Photo uploaded for: {{photo.recipe.title}}</span>
+                                </div>
+                                <div class = 'user-photos-photo'>
+                                        <img src="{{ url_for('static', filename='photos/photo-' ~ photo.id ~ '.' ~ photo.file_extension) }}" alt="photo" height="150">
+                                </div>
+                            </li>
+                        {%endfor%}
+                        </ul>
+                    </section>                    
+                </div>
+                {%if current_user.id == user.id %}
+                    <div class="profile-bookmarks tab">
+                        <section class = 'user-bookmarks'>
+                            <ul>
+                            {%for book in user.bookmarks %}
+                                {% set recipe = book.recipe %}
+                                <li>Bookmarked: <a>{{book.recipe.title}}</a> by {{book.recipe.user.name}}
+                                {% include 'main/recipe_template.html'%}
+                                </li>
+                            {%endfor%}
+                            </ul>
+                        </section>
+                    </div>
+                {%endif%}
+                
+            </div>
+        </div>
+        <!-- user body ends -->
+    </div>
+</div>
+
+<script>
+    $('.nav ul li').click(function() {
+         $(this).addClass('active').siblings().removeClass('active');
+
+    })
+
+    const tabBtn = document.querySelector('.nav ul li');
+    const tab = document.querySelectorAll('.tab');
+    function tabs(panelIndex){
+        tab.forEach(function(node){
+            node.style.display = 'none';
+        });
+        tab[panelIndex].style.display = 'block';
+    }
+
+    tabs(0);
+    
+</script>
+{%endblock%}
+

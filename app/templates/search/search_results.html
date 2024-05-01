@@ -1,0 +1,7 @@
+<div class="container d-flex justify-content-center">
+  <div class='row row-cols-auto g-5 py-5'>
+      {% for recipe in results %}
+              {% include 'main/recipe_template.html' %}
+      {% endfor %}
+  </div>
+</div>
